@@ -3,7 +3,7 @@ let currencyData = [];
 const themeIcon = document.getElementById("themeIcon");
 const lightIcon = "light-mode.png"; // your light icon path
 const darkIcon = "night-mode.png";   // your dark icon path
-const API_BASE = "/api"; // proxy
+const API_BASE = "https://currency-converter-backend-hux8.onrender.com"; 
 
 
 // Load stored preference
@@ -166,5 +166,6 @@ async function convertCurrency() {
 }
 
 loadCurrencies();
+
 
 
