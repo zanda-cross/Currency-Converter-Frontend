@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Currency Converter</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+</head>
+
+<body>
+<main>
+    <!-- Theme Toggle Swtich -->
+    <div class="theme-toggle">
+        <img id="themeIcon" src="light-mode.png" alt="Toggle Theme">
+    </div>
+
+    <div class="top-text">
+        <h1>Currency Converter</h1>
+    </div>
+
+    <section class="currency-section">
+        <!-- From Currency Box -->
+        <div class="dropdown-container">
+            <input type="text" id="fromCurrencySearch" placeholder="Search from currency...">
+            <div id="fromCurrencyList" class="dropdown-list"></div>
+        </div>
+
+        <!-- Swap Button -->
+        <div class="swap-btn" onclick="swapCurrencies()">
+            <img src="swap.png" alt="Swap">
+        </div>
+
+        <!-- To Currency Box -->
+        <div class="dropdown-container">
+            <input type="text" id="toCurrencySearch" placeholder="Search to currency...">
+            <div id="toCurrencyList" class="dropdown-list"></div>
+        </div>
+    </section>
+
+
+    <!-- Amount Box -->
+    <input type="number" id="amount" placeholder="Enter amount" step="0.01">
+    <button onclick="convertCurrency()">Convert</button>
+
+    <!-- Result -->
+    <h2 id="result"></h2>
+
+    <div class="top-text">
+        <h2>Convert between different currencies instantly!</h2>
+    </div>
+</main>
+
+<script src="index.js"></script>
+</body>
+
+</html>

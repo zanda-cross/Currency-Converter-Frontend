@@ -1,0 +1,166 @@
+body {
+    margin: 0;
+    font-family: "Karla", sans-serif;
+    background-color: whitesmoke;
+    color: white;
+    text-align: center;
+    background: url("background.png") no-repeat;
+    background-size: 100% 105%;
+
+}
+
+/* Card */
+main {
+    background-color: #1F2937;
+    width: 550px;
+    min-height: 450px;
+    margin: 64px auto 0 auto;
+    border-radius: 20px;
+    border-bottom: 10px solid #4591fa;
+    padding: 40px 20px;
+    position: relative;
+}
+
+/* Top Text */
+.top-text {
+    margin: 30px auto 30px auto;
+}
+
+.top-text h1 {
+    position: relative;
+    margin: 0;
+    font-size: 32px;
+    top: -25px;
+    color: #2f8bfd;
+}
+
+.top-text h2 {
+    margin: 0;
+    top: 20px;
+    font-size: 18px;
+    font-weight: 400;
+    color: #ccc;
+    position: relative;
+}
+
+/* Inputs & Buttons */
+input, button {
+    padding: 10px;
+    margin: 10px auto;
+    width: 250px;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+    display: block;
+}
+
+button {
+    background-color: #2f8bfd;
+    color: whitesmoke;
+    font-weight: bold;
+    transition: all 0.2s ease-in-out;
+    margin-top: 30px;
+    width: 200px;
+}
+
+button:hover {
+    transform: scale(1.03);
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+/* Dropdowns */
+.currency-section {
+    position: relative;
+    top: -30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dropdown-container {
+    position: relative;
+    margin: 0;
+}
+
+.dropdown-list {
+    position: absolute;
+    background: #273549;
+    border-radius: 10px;
+    max-height: 150px;
+    overflow-y: auto;
+    width: 100%;
+    display: none;
+    z-index: 10;
+}
+
+.dropdown-item {
+    padding: 8px;
+    cursor: pointer;
+    color: whitesmoke;
+}
+
+.dropdown-item:hover,
+.dropdown-item.highlight {
+    background-color: #3b5375;
+}
+
+/* Swap Button */
+.swap-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 15px auto;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    transition: transform 0.4s ease;
+}
+
+.swap-btn img {
+    width: 35px;
+    height: 30px;
+}
+
+.swap-btn.rotate {
+    transform: rotate(180deg);
+}
+
+#amount {
+    margin-top: -20px;
+}
+
+/* Theme Toggle */
+.theme-toggle {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    cursor: pointer;
+}
+
+.theme-toggle img {
+    width: 32px;
+    height: 32px;
+}
+
+/* Dark Mode */
+body.dark-mode {
+    background-color: #252525;
+    color: whitesmoke;
+}
+
+body.dark-mode main {
+    background-color: #1e1e1e;
+    box-shadow: 4px 4px 12px rgba(0,0,0,0.3);
+}
+
+body.dark-mode input {
+    background-color: #273549;
+    color: whitesmoke;
+}
+body.dark-mode button {
+    background-color: #2f8bfd;
+    color: whitesmoke;
+}
