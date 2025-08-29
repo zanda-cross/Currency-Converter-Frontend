@@ -117,19 +117,26 @@ async function convertCurrency() {
 if (localStorage.getItem("darkMode") === "true") {
     document.body.classList.add("dark-mode");
     themeIcon.src = darkIcon;
+    document.getElementById("theme-color-meta").setAttribute("content", "#1e1e1e");
 } else {
+    document.body.classList.add("light-mode");
     themeIcon.src = lightIcon;
+    document.getElementById("theme-color-meta").setAttribute("content", "#ffffff");
 }
 
 /**
  * Toggles the theme between light and dark mode when the theme icon is clicked.
- * It also saves the user's preference in local storage.
+ * It also saves the user's preference in local storage and updates the theme-color meta tag.
  */
 themeIcon.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
     const isDark = document.body.classList.contains("dark-mode");
     localStorage.setItem("darkMode", isDark);
     themeIcon.src = isDark ? darkIcon : lightIcon;
+
+    // Update the theme-color meta tag for the browser UI
+    const themeColor = isDark ? "#1e1e1e" : "#ffffff";
+    document.getElementById("theme-color-meta").setAttribute("content", themeColor);
 });
 
 /**
