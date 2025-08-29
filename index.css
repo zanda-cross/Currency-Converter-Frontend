@@ -195,4 +195,10 @@ body.dark-mode button {
     button {
         width: 80%; /* Make button wider */
     }
+
+    .theme-toggle {
+        top: 10px;
+        right: 10px;
+    }
+
 }
