@@ -57,6 +57,14 @@ async function loadCurrencies() {
         // Fetch the currency data using the robust retry function.
         currencyData = await fetchWithRetry(`${API_BASE}/currencies`);
 
+        // Show a temporary success message now that the server is awake.
+        statusMessage.textContent = "✅ Server is live! You're ready to convert.";
+
+        // Clear the success message after 3 seconds.
+        setTimeout(() => {
+            statusMessage.textContent = "";
+        }, 3000);
+
         // If successful, set up the interactive dropdown menus.
         setupDropdown("fromCurrencySearch", "fromCurrencyList", "toCurrencySearch");
         setupDropdown("toCurrencySearch", "toCurrencyList", null);
