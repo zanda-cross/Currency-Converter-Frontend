@@ -1,10 +1,95 @@
 let currencyData = [];
-
 const themeIcon = document.getElementById("themeIcon");
-const lightIcon = "light-mode.png"; // your light icon path
-const darkIcon = "night-mode.png";   // your dark icon path
-const API_BASE = "https://currency-converter-backend-hux8.onrender.com"; 
+const statusMessage = document.getElementById("status-message");
+const lightIcon = "light-mode.png";
+const darkIcon = "night-mode.png";
+const API_BASE = "https://currency-converter-backend-hux8.onrender.com";
 
+
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+async function fetchWithRetry(url, retries = 4, delay_ms = 30000) {
+    for (let i = 0; i < retries; i++) {
+        try {
+            // On the first attempt, show a friendly message
+            if (i === 0) {
+                statusMessage.textContent = "⚙️ Waking up the server, this may take a moment...";
+            } else {
+                statusMessage.textContent = `⚙️ Server is starting... Retrying attempt ${i + 1}...`;
+            }
+
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
+            // Success! Clear the message and return the data.
+            statusMessage.textContent = "";
+            return await response.json();
+
+        } catch (error) {
+            console.warn(`Attempt ${i + 1} failed. Retrying in ${delay_ms / 1000}s...`);
+            if (i === retries - 1) throw new Error("Server did not respond after multiple attempts.");
+            await delay(delay_ms);
+        }
+    }
+}
+
+
+// --- Updated Core Logic ---
+
+// ✨ REWRITTEN to use the fetchWithRetry function
+async function loadCurrencies() {
+    try {
+        // Use the new robust fetch function
+        currencyData = await fetchWithRetry(`${API_BASE}/currencies`);
+
+        // If successful, setup the dropdowns
+        setupDropdown("fromCurrencySearch", "fromCurrencyList", "toCurrencySearch");
+        setupDropdown("toCurrencySearch", "toCurrencyList", null);
+
+    } catch (error) {
+        // This catch block now only runs after all retries have failed
+        statusMessage.textContent = "❌ Failed to load currencies. The server might be down. Please try again later.";
+        console.error("Final error after all retries:", error);
+    }
+}
+
+// ✨ UPDATED to use status messages instead of alerts
+async function convertCurrency() {
+    const from = document.getElementById("fromCurrencySearch").value;
+    const to = document.getElementById("toCurrencySearch").value;
+    const amount = document.getElementById("amount").value;
+    const resultElement = document.getElementById("result");
+
+    resultElement.innerText = ""; // Clear previous result
+
+    if (!from || !to) {
+        statusMessage.textContent = "⚠️ Please select both 'from' and 'to' currencies.";
+        return;
+    }
+    if (amount <= 0 || !amount) {
+        statusMessage.textContent = "⚠️ Please enter a valid amount greater than zero.";
+        return;
+    }
+
+    statusMessage.textContent = "Converting..."; // Provide feedback
+
+    try {
+        const res = await fetch(`${API_BASE}/convert?from=${from}&to=${to}&amount=${amount}`);
+        if (!res.ok) throw new Error('Conversion request failed');
+        const data = await res.json();
+
+        resultElement.innerText =
+            `${amount} ${from} = ${data.convertedAmount.toFixed(2)} ${to} (Rate: ${data.rate})`;
+        statusMessage.textContent = ""; // Clear status on success
+    } catch (error) {
+        resultElement.innerText = ""; // Clear result area on failure
+        statusMessage.textContent = "❌ Failed to fetch conversion. Please try again.";
+        console.error(error);
+    }
+}
+
+
+// --- Unchanged Functions ---
 
 // Load stored preference
 if (localStorage.getItem("darkMode") === "true") {
@@ -24,37 +109,18 @@ themeIcon.addEventListener("click", () => {
 
 function swapCurrencies() {
     const fromInput = document.getElementById("fromCurrencySearch");
-    const toInput   = document.getElementById("toCurrencySearch");
-    const swapBtn   = document.querySelector(".swap-btn");
+    const toInput = document.getElementById("toCurrencySearch");
+    const swapBtn = document.querySelector(".swap-btn");
 
-    // rotate the arrow (toggle 0° <-> 180°)
     swapBtn.classList.toggle("rotate");
 
-    // swap the input values
     const tmp = fromInput.value;
     fromInput.value = toInput.value;
     toInput.value = tmp;
 
     document.getElementById("fromCurrencyList").style.display = "none";
-    document.getElementById("toCurrencyList").style.display   = "none";
+    document.getElementById("toCurrencyList").style.display = "none";
 }
-
-
-
-async function loadCurrencies() {
-    try {
-        let res = await fetch(`${API_BASE}/currencies`);
-        currencyData = await res.json();
-
-        setupDropdown("fromCurrencySearch", "fromCurrencyList", "toCurrencySearch");
-        setupDropdown("toCurrencySearch", "toCurrencyList", null);
-
-    } catch (error) {
-        alert("Failed to load currencies. Please check backend.");
-        console.error(error);
-    }
-}
-
 
 function setupDropdown(inputId, listId, nextInputId) {
     let input = document.getElementById(inputId);
@@ -139,33 +205,6 @@ function populateDropdown(listId, data, inputId) {
     });
 }
 
-async function convertCurrency() {
-    let from = document.getElementById("fromCurrencySearch").value;
-    let to = document.getElementById("toCurrencySearch").value;
-    let amount = document.getElementById("amount").value;
-
-    if (!from || !to) {
-        alert("Please select both currencies.");
-        return;
-    }
-    if (amount <= 0) {
-        alert("Please enter a valid amount greater than zero.");
-        return;
-    }
-
-    try {
-        let res = await fetch(`${API_BASE}/convert?from=${from}&to=${to}&amount=${amount}`);
-        let data = await res.json();
-
-        document.getElementById("result").innerText =
-            `${amount} ${from} = ${data.convertedAmount.toFixed(2)} ${to} (Rate: ${data.rate})`;
-    } catch (error) {
-        alert("Failed to fetch conversion. Please try again.");
-        console.error(error);
-    }
-}
-
+// Initial load
 loadCurrencies();
-
-
 

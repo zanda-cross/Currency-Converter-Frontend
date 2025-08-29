@@ -11,7 +11,6 @@
 
 <body>
 <main>
-    <!-- Theme Toggle Swtich -->
     <div class="theme-toggle">
         <img id="themeIcon" src="light-mode.png" alt="Toggle Theme">
     </div>
@@ -21,31 +20,25 @@
     </div>
 
     <section class="currency-section">
-        <!-- From Currency Box -->
         <div class="dropdown-container">
             <input type="text" id="fromCurrencySearch" placeholder="Search from currency...">
             <div id="fromCurrencyList" class="dropdown-list"></div>
         </div>
 
-        <!-- Swap Button -->
         <div class="swap-btn" onclick="swapCurrencies()">
             <img src="swap.png" alt="Swap">
         </div>
 
-        <!-- To Currency Box -->
         <div class="dropdown-container">
             <input type="text" id="toCurrencySearch" placeholder="Search to currency...">
             <div id="toCurrencyList" class="dropdown-list"></div>
         </div>
     </section>
 
-
-    <!-- Amount Box -->
     <input type="number" id="amount" placeholder="Enter amount" step="0.01">
     <button onclick="convertCurrency()">Convert</button>
 
-    <!-- Result -->
-    <h2 id="result"></h2>
+    <p id="status-message" class="status"></p> <h2 id="result"></h2>
 
     <div class="top-text">
         <h2>Convert between different currencies instantly!</h2>
